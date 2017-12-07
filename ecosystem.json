@@ -1,0 +1,17 @@
+{
+	"apps" : [{
+		"name"                  : "Discord Bot - ++ever",
+		"script"                : "run.py",
+		"args"                  : "--config config.ini",
+		"interpreter"           : "python3",
+		"interpreter_args"      : "-I -OO",
+		"watch"                 : true,
+		"ignore_watch"          : [ "storage" ],
+		"max_memory_restart"    : "32M",
+		"max_restarts"          : "5",
+		"min_uptime"            : "16000",
+		"restart_delay"         : 3000,
+		"autorestart"           : true,
+		"post_update"           : [ "pip3 install -r requirements.txt" ]
+	}]
+}
