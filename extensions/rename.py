@@ -27,7 +27,7 @@ class Rename:
 	async def set_counter(self, ctx: commands.Context, *, count: int):
 		"""Set a base number to start counting from."""
 		
-		self.update_settings(settings={'count': count})
+		await self.update_count(guild=ctx.guild, count=count)
 		return await ctx.send(
 			embed=discord.Embed(
 				description=f'Now counting from {self.settings["count"]}.',
@@ -45,16 +45,19 @@ class Rename:
 		if msg.author.bot:
 			return
 		if re.search(r'\d+ever|<@!?99755417541828608>', msg.content):
-			self.update_settings({'count': self.settings["count"] + 1})
-			try:
-				await msg.guild.get_member(99755417541828608).edit(nick=f'{self.settings["count"]}ever')
-			except Exception as e:
-				print(f'ERR: SET_NICK: {e}')
+			await self.update_count(guild=msg.guild, count=self.settings["count"] + 1)
 			if self.settings["count"] == 100:
 				try:
 					await msg.add_reaction('\N{HUNDRED POINTS SYMBOL}')
 				except Exception as e:
 					print(f'ERR: ADD_EMOTE: {e}')
+	
+	async def update_count(self, guild: discord.Guild, count: int):
+		self.update_settings({'count': count})
+		try:
+			await guild.get_member(99755417541828608).edit(nick=f'{self.settings["count"]}ever')
+		except Exception as e:
+			print(f'ERR: SET_NICK: {e}')
 	
 	def update_settings(self, settings: dict):
 		if settings is not None or settings != {}:
