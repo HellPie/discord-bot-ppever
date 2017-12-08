@@ -22,7 +22,11 @@ def _prefix_handler(bot: commands.Bot, msg: discord.Message):
 
 class PPEverBot(commands.Bot):
 	def __init__(self):
-		super().__init__(command_prefix=_prefix_handler, description=__description__)
+		super().__init__(
+			command_prefix=_prefix_handler,
+			description=__description__,
+			game=discord.Game(name='4ever sleep', type=3)
+		)
 		for extension in _initial_extensions:
 			try:
 				self.load_extension(extension)
