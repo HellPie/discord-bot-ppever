@@ -14,9 +14,9 @@ _initial_extensions = (
 
 
 def _prefix_handler(bot: commands.Bot, msg: discord.Message):
-	prefixes = [f'<@!{bot.user.id}>', f'<@{bot.user.id}>']
+	prefixes = [f'<@!{bot.user.id}> ', f'<@{bot.user.id}> ']
 	if msg.guild is not None:
-		prefixes.append(f'{msg.guild.display_name}, ')
+		prefixes.append(f'{msg.guild.me.display_name}, ')
 	return prefixes
 
 

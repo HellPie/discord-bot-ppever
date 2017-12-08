@@ -10,7 +10,9 @@ class Rename:
 	
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
-		self.settings = {}
+		self.settings = {
+			'count': 0
+		}
 		try:
 			settings = open('settings/rename.json')
 			self.settings = json.load(settings)
@@ -21,7 +23,7 @@ class Rename:
 	async def __local_check(self, ctx: commands.Context) -> bool:
 		return await self.bot.is_owner(ctx.author)
 	
-	@commands.command(pass_context=True, name='set count to')
+	@commands.command(pass_context=True, name='count')
 	async def set_counter(self, ctx: commands.Context, *, count: int):
 		"""Set a base number to start counting from."""
 		
@@ -42,7 +44,7 @@ class Rename:
 	async def on_message(self, msg: discord.Message):
 		if msg.author.bot:
 			return
-		if 99755417541828608 in [member.id for member in msg.mentions] or re.search(r'\d+ever', msg.content):
+		if re.search(r'\d+ever|<@!?99755417541828608>', msg.content):
 			self.update_settings({'count': self.settings["count"] + 1})
 			try:
 				await msg.guild.get_member(99755417541828608).edit(nick=f'{self.settings["count"]}ever')
