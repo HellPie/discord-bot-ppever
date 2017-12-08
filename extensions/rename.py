@@ -14,7 +14,7 @@ class Rename:
 			'count': 0
 		}
 		try:
-			settings = open('settings/rename.json')
+			settings = open('storage/rename.json')
 			self.settings = json.load(settings)
 			settings.close()
 		except FileNotFoundError:
@@ -32,9 +32,6 @@ class Rename:
 			embed=discord.Embed(
 				description=f'Now counting from {self.settings["count"]}.',
 				colour=0x8E44AD
-			).set_author(
-				name=self.bot.user.name,
-				icon_url=self.bot.user.avatar_url
 			).set_footer(
 				text=f'Made by @{self.bot.get_user(self.bot.owner_id).name} with \N{BLACK HEART SUIT}',
 				icon_url=self.bot.get_user(self.bot.owner_id).avatar_url
@@ -42,7 +39,7 @@ class Rename:
 		)
 	
 	async def on_message(self, msg: discord.Message):
-		if msg.author.bot:
+		if msg.author.bot or msg.guild.id != 272248892161261569:
 			return
 		if re.search(r'\d+ever|<@!?99755417541828608>', msg.content):
 			await self.update_count(guild=msg.guild, count=self.settings["count"] + 1)
