@@ -27,7 +27,7 @@ class Rename:
 	async def set_counter(self, ctx: commands.Context, *, count: int):
 		"""Set a base number to start counting from."""
 		
-		await self.update_count(guild=ctx.guild, count=count)
+		await self.update_count(msg=ctx.message, count=count)
 		return await ctx.send(
 			embed=discord.Embed(
 				description=f'Now counting from {self.settings["count"]}.',
@@ -42,17 +42,20 @@ class Rename:
 		if msg.author.bot or msg.guild.id != 272248892161261569:
 			return
 		if re.search(r'\d+ever|<@!?99755417541828608>', msg.content):
-			await self.update_count(guild=msg.guild, count=self.settings["count"] + 1)
+			await self.update_count(msg=msg, count=self.settings["count"] + 1)
 			if self.settings["count"] == 100:
 				try:
 					await msg.add_reaction('\N{HUNDRED POINTS SYMBOL}')
 				except Exception as e:
 					print(f'ERR: ADD_EMOTE: {e}')
 	
-	async def update_count(self, guild: discord.Guild, count: int):
+	async def update_count(self, msg: discord.Message, count: int):
 		self.update_settings({'count': count})
 		try:
-			await guild.get_member(99755417541828608).edit(nick=f'{self.settings["count"]}ever')
+			await msg.guild.get_member(99755417541828608).edit(
+				nick=f'{self.settings["count"]}ever',
+				reason=f'Pinged by @{msg.author.name}#{msg.author.discriminator} (ID: {msg.author.id})'
+			)
 		except Exception as e:
 			print(f'ERR: SET_NICK: {e}')
 	
