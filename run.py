@@ -6,8 +6,8 @@ import bot
 
 def run():
 	args_parser = argparse.ArgumentParser(
-		description='Joke bot made for the Vainglory API official unofficial Discord guild',
-		epilog='Made with <3 by @_HellPie#9429',
+		description=bot.__description__,
+		epilog=f'Made with <3 by bot. {bot.__author__}',
 		add_help=False
 	)
 	args_parser.add_argument(
@@ -19,7 +19,7 @@ def run():
 		'-v', '--version',
 		action='version',
 		help='Shows the version of this Bot and exits.',
-		version=f'++Ever v{bot.__version__}'
+		version=f'{bot.__title__} v{bot.__version__}'
 	)
 	args_parser.add_argument(
 		'-c', '--conf',
